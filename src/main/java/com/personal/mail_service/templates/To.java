@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 public interface To {
-    default List<Recipient> toList() {
-        return Collections.singletonList(new Recipient(to(), ""));
-    }
+//    default List<Recipient> toList() {
+//        return Collections.singletonList(new Recipient(to(), ""));
+//    }
 
     String to();
 }

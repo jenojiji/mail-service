@@ -1,8 +1,11 @@
 package com.personal.mail_service;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.UnsupportedEncodingException;
 
 @RestController
 public class MailController {
@@ -14,7 +17,7 @@ public class MailController {
     }
 
     @GetMapping("/test")
-    public String sendTestEmail() {
+    public String sendTestEmail() throws MessagingException, UnsupportedEncodingException {
         mailService.sendTestEmail();
         return "Test Email Sent!";
     }

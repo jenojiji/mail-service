@@ -1,26 +1,31 @@
 package com.personal.mail_service;
 
 import com.personal.mail_service.templates.*;
+import com.personal.mail_service.templatesImpl.FromImpl;
+import com.personal.mail_service.templatesImpl.FromNameImpl;
+import com.personal.mail_service.templatesImpl.SubjectImpl;
+import com.personal.mail_service.templatesImpl.ToImpl;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Service
 public class MailService {
-    private final MailServiceTemplate emailService;
 
     @Autowired
-    public MailService(MailServiceTemplate emailService) {
-        this.emailService = emailService;
-    }
+    private SMTPMailService emailService;
 
-    public void sendTestEmail() {
-        To to = () -> "recipient@example.com";
-        From from = () -> "sender@example.com";
-        Subject subject = () -> "Test Subject";
 
-        emailService.sendEmail(to, from, subject, "This is a test email.");
+    public void sendTestEmail() throws MessagingException, UnsupportedEncodingException {
+        To to = new ToImpl("jenojiji001@gmail.com");
+        From from = new FromImpl("jenoattickal013@gmail.com");
+        Subject subject = new SubjectImpl("Test Subject");
+        FromName fromName=new FromNameImpl("Jeno Jiji");
+
+        emailService.sendEmail(to, from,fromName, subject, "This is a test email.");
     }
 
     public void sendEventEmail() {

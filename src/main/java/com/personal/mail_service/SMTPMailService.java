@@ -1,15 +1,35 @@
 package com.personal.mail_service;
 
 import com.personal.mail_service.templates.*;
-import org.springframework.stereotype.Service;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-@Service
+@Component
 public class SMTPMailService implements MailServiceTemplate {
 
+    private final JavaMailSender javaMailSender;
+
+    public SMTPMailService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+
     @Override
-    public void sendEmail(To to, From from, Subject subject, String body) {
+    public void sendEmail(To to, From from, FromName fromName, Subject subject, String body) throws MessagingException, UnsupportedEncodingException {
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setTo(to.to());
+        helper.setFrom(from.from(), fromName.fromName());
+        helper.setSubject(subject.subject());
+        helper.setText(body);
+        javaMailSender.send(message);
+
         System.out.println("SMTP Sending Email:");
         System.out.println("To: " + to.to());
         System.out.println("From: " + from.from());
